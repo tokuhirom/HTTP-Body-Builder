@@ -4,8 +4,8 @@ use warnings;
 use utf8;
 use 5.010_001;
 
-use HTTP::Request::Common ();
 use Carp ();
+use URI;
 
 sub new {
     my $class = shift;
@@ -32,24 +32,25 @@ sub add_file {
 sub as_string {
     my ($self) = @_;
 
-    my @content;
-    for my $row (@{$self->{content}}) {
-        push @content, @$row;
-    }
+    my $uri = URI->new('http:');
+    $uri->query_form(@{$self->{content}});
+    my $content = $uri->query;
 
-    my $post = HTTP::Request::Common::POST(
-        'http://example.com/',
-        Content => [@content],
-    );
-    $post->content;
+    # HTML/4.01 says that line breaks are represented as "CR LF" pairs (i.e., `%0D%0A')
+    $content =~ s/(?<!%0D)%0A/%0D%0A/g if defined($content);
+    $content;
 }
 
-# TODO: write it as streamingly.
+sub errstr { shift->{errstr} }
+
 sub write_file {
     my ($self, $filename) = @_;
 
     open my $fh, '<', $filename
-        or return;
+        or do {
+        $self->{errstr} = "Cannot open '$filename' for writing: $!";
+        return;
+    };
     print {$fh} $self->as_string;
     close $fh;
 }
