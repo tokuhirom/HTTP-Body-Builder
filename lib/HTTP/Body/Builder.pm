@@ -5,12 +5,6 @@ use warnings;
 
 our $VERSION = "0.01";
 
-sub as_string {
-    my $self = shift;
-}
-
-sub write_file { ... }
-
 1;
 __END__
 
@@ -18,15 +12,21 @@ __END__
 
 =head1 NAME
 
-HTTP::Body::Builder - It's new $module
-
-=head1 SYNOPSIS
-
-    use HTTP::Body::Builder;
+HTTP::Body::Builder - HTTP::Body::Builder!
 
 =head1 DESCRIPTION
 
-HTTP::Body::Builder is ...
+HTTP::Body::Builder is a module set for building HTTP body.
+
+See following modules.
+
+=over 4
+
+=item L<HTTP::Body::Builder::MultiPart>
+
+=item L<HTTP::Body::Builder::UrlEncoded>
+
+=back
 
 =head1 LICENSE
 

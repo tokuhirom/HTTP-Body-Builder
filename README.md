@@ -1,14 +1,15 @@
 # NAME
 
-HTTP::Body::Builder - It's new $module
-
-# SYNOPSIS
-
-    use HTTP::Body::Builder;
+HTTP::Body::Builder - HTTP::Body::Builder!
 
 # DESCRIPTION
 
-HTTP::Body::Builder is ...
+HTTP::Body::Builder is a module set for building HTTP body.
+
+See following modules.
+
+- [HTTP::Body::Builder::MultiPart](http://search.cpan.org/perldoc?HTTP::Body::Builder::MultiPart)
+- [HTTP::Body::Builder::UrlEncoded](http://search.cpan.org/perldoc?HTTP::Body::Builder::UrlEncoded)
 
 # LICENSE
 
