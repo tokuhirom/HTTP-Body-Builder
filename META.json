@@ -52,5 +52,16 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/tokuhirom/HTTP-Body-Builder/issues"
+      },
+      "homepage" : "https://github.com/tokuhirom/HTTP-Body-Builder",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/tokuhirom/HTTP-Body-Builder.git",
+         "web" : "https://github.com/tokuhirom/HTTP-Body-Builder"
+      }
+   },
    "version" : "0.01"
 }
