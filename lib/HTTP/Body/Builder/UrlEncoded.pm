@@ -41,20 +41,6 @@ sub as_string {
     $content;
 }
 
-sub errstr { shift->{errstr} }
-
-sub write_file {
-    my ($self, $filename) = @_;
-
-    open my $fh, '<', $filename
-        or do {
-        $self->{errstr} = "Cannot open '$filename' for writing: $!";
-        return;
-    };
-    print {$fh} $self->as_string;
-    close $fh;
-}
-
 1;
 __END__
 
@@ -83,8 +69,8 @@ Create new instance of HTTP::Body::Builder::UrlEncoded.
 
 Add new parameter in raw string.
 
-=item $builder->add_file($key => $real_file_name);
+=item $builder->as_string();
 
-Add C<$real_file_name> as C<$key>.
+Generate body as string.
 
 =back
