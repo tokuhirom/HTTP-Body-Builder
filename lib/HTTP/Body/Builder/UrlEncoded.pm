@@ -46,7 +46,7 @@ __END__
 
 =head1 NAME
 
-HTTP::Body::Builder::UrlEncoded - application/x-www-encoded
+HTTP::Body::Builder::UrlEncoded - C<application/x-www-encoded>
 
 =head1 SYNOPSIS
 
