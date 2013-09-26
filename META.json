@@ -4,7 +4,7 @@
       "tokuhirom <tokuhirom@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v0.6.7, CPAN::Meta::Converter version 2.132510",
+   "generated_by" : "Minilla/v0.6.7, CPAN::Meta::Converter version 2.132661",
    "license" : [
       "perl_5"
    ],
@@ -42,11 +42,13 @@
       },
       "runtime" : {
          "requires" : {
+            "URI" : "0",
             "perl" : "5.008005"
          }
       },
       "test" : {
          "requires" : {
+            "File::Temp" : "0",
             "Test::More" : "0.98"
          }
       }
@@ -63,5 +65,5 @@
          "web" : "https://github.com/tokuhirom/HTTP-Body-Builder"
       }
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }
