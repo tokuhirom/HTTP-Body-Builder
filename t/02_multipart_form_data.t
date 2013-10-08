@@ -66,6 +66,7 @@ sub slurp {
     my $fname = shift;
     open my $fh, '<', $fname
         or Carp::croak("Can't open '$fname' for reading: '$!'");
+    binmode $fh;
     scalar(do { local $/; <$fh> })
 }
 
