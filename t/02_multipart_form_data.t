@@ -20,6 +20,23 @@ subtest 'simple' => sub {
     );
 };
 
+subtest 'multiple content k/v pairs' => sub {
+    my $builder = HTTP::Body::Builder::MultiPart->new;
+    $builder->add_content(x => 'y');
+    $builder->add_content(foo => 'bar');
+    is $builder->as_string, join ('',
+        "--xYzZY$CRLF",
+        qq{Content-Disposition: form-data; name="x"$CRLF},
+        "$CRLF",
+        "y$CRLF",
+        "--xYzZY$CRLF",
+        qq{Content-Disposition: form-data; name="foo"$CRLF},
+        "$CRLF",
+        "bar$CRLF",
+        "--xYzZY--$CRLF",
+    );
+};
+
 subtest 'simple case with file' => sub {
     my $builder = HTTP::Body::Builder::MultiPart->new;
     $builder->add_content(x => "y\0z");
