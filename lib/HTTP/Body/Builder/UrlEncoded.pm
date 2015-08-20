@@ -53,7 +53,7 @@ HTTP::Body::Builder::UrlEncoded - C<application/x-www-encoded>
     use HTTP::Body::Builder::UrlEncoded;
 
     my $builder = HTTP::Body::Builder::UrlEncoded->new();
-    $builder->add('x' => 'y');
+    $builder->add_content('x' => 'y');
     $builder->as_string;
     # => x=y
 

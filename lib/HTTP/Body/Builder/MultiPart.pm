@@ -108,7 +108,7 @@ HTTP::Body::Builder::MultiPart - multipart/form-data
     use HTTP::Body::Builder::MultiPart;
 
     my $builder = HTTP::Body::Builder::MultiPart->new();
-    $builder->add('x' => 'y');
+    $builder->add_content('x' => 'y');
     $builder->as_string;
     # => x=y
 
