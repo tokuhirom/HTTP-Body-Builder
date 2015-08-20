@@ -17,7 +17,7 @@ sub new {
 
 sub add_content {
     my ($self, $name, $value) = @_;
-    push @{$self->{content}}, [$name, $value];
+    push @{$self->{content}}, $name, $value;
 }
 
 sub content_type {
@@ -33,7 +33,7 @@ sub as_string {
     my ($self) = @_;
 
     my $uri = URI->new('http:');
-    $uri->query_form(@{$self->{content}});
+    $uri->query_form($self->{content});
     my $content = $uri->query;
 
     # HTML/4.01 says that line breaks are represented as "CR LF" pairs (i.e., `%0D%0A')

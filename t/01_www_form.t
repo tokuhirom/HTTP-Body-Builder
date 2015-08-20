@@ -8,7 +8,8 @@ use HTTP::Body::Builder::UrlEncoded;
 subtest 'simple' => sub {
     my $builder = HTTP::Body::Builder::UrlEncoded->new();
     $builder->add_content('x' => 'y');
-    is $builder->as_string, 'x=y';
+    $builder->add_content('foo' => 'bar');
+    is $builder->as_string, 'x=y&foo=bar';
 };
 
 subtest 'binary' => sub {
