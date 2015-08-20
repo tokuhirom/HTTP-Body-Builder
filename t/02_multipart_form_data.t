@@ -56,6 +56,26 @@ subtest 'simple case with file' => sub {
     );
 };
 
+subtest 'multiple files' => sub {
+    my $builder = HTTP::Body::Builder::MultiPart->new;
+    $builder->add_file(x => 't/dat/foo');
+    $builder->add_file(y => 't/dat/bar');
+    is $builder->content_type, 'multipart/form-data';
+    is $builder->as_string, join('',
+        "--xYzZY$CRLF",
+        qq{Content-Disposition: form-data; name="x"; filename="foo"$CRLF},
+        "Content-Type: text/plain$CRLF",
+        "$CRLF",
+        "foofoofoo$CRLF",
+        "--xYzZY$CRLF",
+        qq{Content-Disposition: form-data; name="y"; filename="bar"$CRLF},
+        "Content-Type: text/plain$CRLF",
+        "$CRLF",
+        "barbarbar$CRLF",
+        "--xYzZY--$CRLF",
+    );
+};
+
 subtest 'write_file' => sub {
     my $builder = HTTP::Body::Builder::MultiPart->new;
     $builder->add_content(x => "y\0z");
