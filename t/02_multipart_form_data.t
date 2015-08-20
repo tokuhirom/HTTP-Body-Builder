@@ -97,6 +97,25 @@ subtest 'write_file' => sub {
     );
 };
 
+subtest 'constructor' => sub {
+    my $builder = HTTP::Body::Builder::MultiPart->new(
+        content => {x => 'y'},
+        files   => {z => 't/dat/foo'},
+    );
+    is $builder->as_string, join('',
+        "--xYzZY$CRLF",
+        qq{Content-Disposition: form-data; name="x"$CRLF},
+        "$CRLF",
+        "y$CRLF",
+        "--xYzZY$CRLF",
+        qq{Content-Disposition: form-data; name="z"; filename="foo"$CRLF},
+        "Content-Type: text/plain$CRLF",
+        "$CRLF",
+        "foofoofoo$CRLF",
+        "--xYzZY--$CRLF",
+    );
+};
+
 done_testing;
 
 sub slurp {

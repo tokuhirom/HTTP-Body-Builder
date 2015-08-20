@@ -26,5 +26,18 @@ subtest 'file' => sub {
     ok $@;
 };
 
+subtest 'constructor' => sub {
+    my $builder = HTTP::Body::Builder::UrlEncoded->new(
+        content => {'foo' => 42, 'bar' => 'hello', 'baz' => [ 1, 2 ]});
+    $builder->add_content('x' => 'y');
+    # We need to use like instead of looking at the whole string because we
+    # just use keys to iterate of the hash passed to the constructor.
+    like $builder->as_string, qr/foo=42/;
+    like $builder->as_string, qr/bar=hello/;
+    like $builder->as_string, qr/baz=1/;
+    like $builder->as_string, qr/baz=2/;
+    like $builder->as_string, qr/x=y/;
+};
+
 done_testing;
 

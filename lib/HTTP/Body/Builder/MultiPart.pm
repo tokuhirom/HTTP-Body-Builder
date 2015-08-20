@@ -11,11 +11,26 @@ my $CRLF = "\015\012";
 sub new {
     my $class = shift;
     my %args = @_==1 ? %{$_[0]} : @_;
-    bless {
+    my $content = delete $args{content};
+    my $files = delete $args{files};
+    my $self = bless {
         boundary => 'xYzZY',
         buffer_size => 2048,
         %args
     }, $class;
+    if ($content) {
+        for my $key (keys %{$content}) {
+            for my $value (ref $content->{$key} ? @{$content->{$key}} : $content->{$key}) {
+                $self->add_content($key => $value);
+            }
+        }
+    }
+    if ($files) {
+        for my $name (keys %{$files}) {
+            $self->add_file($name => $files->{$name});
+        }
+    }
+    return $self;
 }
 
 sub add_content {
@@ -118,7 +133,32 @@ HTTP::Body::Builder::MultiPart - multipart/form-data
 
 =item my $builder = HTTP::Body::Builder::MultiPart->new()
 
-Create new instance of HTTP::Body::Builder::MultiPart.
+Create a new HTTP::Body::Builder::MultiPart instance.
+
+The constructor accepts named arguments as a hash. The allowed parameters are
+C<content> and C<files>. Each of these parameters should in turn be a hashref.
+
+For the C<content> parameter, each key/value pair in this hashref will be
+added to the builder by calling the C<add_content> method.
+
+For the C<files> parameter, the keys are parameter names and the values are
+filenames.
+
+If the value of one of the content hashref's keys is an arrayref, then each
+member of the arrayref will be added separately.
+
+    HTTP::Body::Builder::MultiPart->new(
+        content => {'a' => 42, 'b' => [1, 2]},
+        files   => {'x' => 'path/to/file'},
+    );
+
+is equivalent to the following:
+
+    my $builder = HTTP::Body::Builder::MultiPart->new;
+    $builder->add_content('a' => 42);
+    $builder->add_content('b' => 1);
+    $builder->add_content('b' => 2);
+    $builder->add_files('x' => 'path/to/file');
 
 =item $builder->add_content($key => $value);
 
