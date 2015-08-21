@@ -10,14 +10,23 @@ use URI;
 sub new {
     my $class = shift;
     my %args = @_==1 ? %{$_[0]} : @_;
-    bless {
+    my $content = delete $args{content};
+    my $self = bless {
         %args
     }, $class;
+    if ($content) {
+        for my $key (keys %{$content}) {
+            for my $value (ref $content->{$key} ? @{$content->{$key}} : $content->{$key}) {
+                $self->add_content($key => $value);
+            }
+        }
+    }
+    return $self;
 }
 
 sub add_content {
     my ($self, $name, $value) = @_;
-    push @{$self->{content}}, [$name, $value];
+    push @{$self->{content}}, $name, $value;
 }
 
 sub content_type {
@@ -33,7 +42,7 @@ sub as_string {
     my ($self) = @_;
 
     my $uri = URI->new('http:');
-    $uri->query_form(@{$self->{content}});
+    $uri->query_form($self->{content});
     my $content = $uri->query;
 
     # HTML/4.01 says that line breaks are represented as "CR LF" pairs (i.e., `%0D%0A')
@@ -52,8 +61,8 @@ HTTP::Body::Builder::UrlEncoded - C<application/x-www-encoded>
 
     use HTTP::Body::Builder::UrlEncoded;
 
-    my $builder = HTTP::Body::Builder::UrlEncoded->new();
-    $builder->add('x' => 'y');
+    my $builder = HTTP::Body::Builder::UrlEncoded->new(content => {'foo' => 42});
+    $builder->add_content('x' => 'y');
     $builder->as_string;
     # => x=y
 
@@ -61,9 +70,27 @@ HTTP::Body::Builder::UrlEncoded - C<application/x-www-encoded>
 
 =over 4
 
-=item my $builder = HTTP::Body::Builder::UrlEncoded->new()
+=item my $builder = HTTP::Body::Builder::UrlEncoded->new(...)
 
-Create new instance of HTTP::Body::Builder::UrlEncoded.
+Create a new HTTP::Body::Builder::UrlEncoded instance.
+
+The constructor accepts named arguments as a hash. The only allowed parameter
+is C<content>. This parameter should be a hashref.
+
+Each key/value pair in this hashref will be added to the builder by calling
+the C<add_content> method.
+
+If the value of one of the content hashref's keys is an arrayref, then each
+member of the arrayref will be added separately.
+
+    HTTP::Body::Builder::UrlEncoded->new(content => {'a' => 42, 'b' => [1, 2]});
+
+is equivalent to the following:
+
+    my $builder = HTTP::Body::Builder::UrlEncoded->new;
+    $builder->add_content('a' => 42);
+    $builder->add_content('b' => 1);
+    $builder->add_content('b' => 2);
 
 =item $builder->add_content($key => $value);
 
