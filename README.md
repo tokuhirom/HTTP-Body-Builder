@@ -8,8 +8,8 @@ HTTP::Body::Builder is a module set for building HTTP body.
 
 See following modules.
 
-- [HTTP::Body::Builder::MultiPart](http://search.cpan.org/perldoc?HTTP::Body::Builder::MultiPart)
-- [HTTP::Body::Builder::UrlEncoded](http://search.cpan.org/perldoc?HTTP::Body::Builder::UrlEncoded)
+- [HTTP::Body::Builder::MultiPart](https://metacpan.org/pod/HTTP::Body::Builder::MultiPart)
+- [HTTP::Body::Builder::UrlEncoded](https://metacpan.org/pod/HTTP::Body::Builder::UrlEncoded)
 
 # LICENSE
 

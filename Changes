@@ -2,6 +2,8 @@ Revision history for Perl extension HTTP-Body-Builder
 
 {{$NEXT}}
 
+0.04 2015-08-21T04:21:55Z
+
     - Only the first key/value pair passed to ->add_content ended up in the
       body with the UrlEncoded module. Fixed by Dave Rolsky.
 
